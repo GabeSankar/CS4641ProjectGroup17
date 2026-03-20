@@ -3,7 +3,7 @@ import nltk
 from collections import Counter
 import numpy as np
 import re
-nltk.download('averaged_perceptron_tagger')
+nltk.download('averaged_perceptron_tagger_eng')
 nltk.download('punkt')
 import string
 import pandas as pd

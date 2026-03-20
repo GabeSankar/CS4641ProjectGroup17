@@ -46,7 +46,7 @@ class RandomForestClassifierWrapper(Classifier):
         )
         super().__init__(model)
 
-    def surrogate_tree(self, X, feature_names=None, class_names=None, max_depth=5):
+    def surrogate_tree(self, X, feature_names=None, class_names=None, max_depth=5, save_name="save_fig.png"):
         """
         Create surrogate tree for random forest
         """
@@ -64,7 +64,7 @@ class RandomForestClassifierWrapper(Classifier):
             filled=True,
             fontsize=10
         )
-        plt.show()
+        plt.savefig(save_name)
         
         #return surrogate tre
         return surrogate_tree
