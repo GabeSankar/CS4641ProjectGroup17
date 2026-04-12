@@ -3,6 +3,8 @@ import nltk
 from collections import Counter
 import numpy as np
 import re
+
+from sklearn.model_selection import train_test_split
 nltk.download('averaged_perceptron_tagger_eng')
 nltk.download('punkt')
 import string
@@ -138,3 +140,15 @@ def flip_dataframe(df):
     df_flipped = df_flipped[df_flipped['text'].str.strip() != '']
 
     return df_flipped
+
+def split_by_prompt(df, train_size = 0.7, val_size = 0.15, random_state=42):
+    unique_prompts = df['prompt'].unique()
+    train, temp = train_test_split(unique_prompts, train_size=train_size, random_state=random_state)
+    val_relative = val_size/(1-train_size)
+    val, test = train_test_split(temp, train_size=val_relative, random_state=random_state)
+
+    train_df = flip_dataframe(df[df['prompt'].isin(train)])
+    val_df = flip_dataframe(df[df['prompt'].isin(val)])
+    test_df = flip_dataframe(df[df['prompt'].isin(test)])
+
+    return train_df, val_df, test_df

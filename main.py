@@ -1,71 +1,35 @@
-from sklearn.model_selection import train_test_split
-import data_util
 import pandas as pd
 from scipy.sparse import vstack
 import numpy as np
-from sklearn.decomposition import TruncatedSVD
 import models
-from tqdm import tqdm
 
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
 import os
 
-# df = pd.read_csv("hf://datasets/gsingh1-py/train/train.csv")
-# df = data_util.flip_dataframe(df)
-
-# Assume df has at least columns: 'text' and 'label'
-# texts = df['text'].tolist()
-# labels = df['label'].values  # target
-
-# # Ngram tsvd dataset
-# #vocab
-# ngram_vocab = data_util.build_ngram_vocab(texts, n=2, min_freq=2)
-# #tsvd
-# n_components = 100
-# tsvd = TruncatedSVD(n_components=n_components, random_state=42)
-
-# # Build X matrix for n-gram ratio features
-# #X_ngram = np.array([data_util.ngram_ratio_vector(text, ngram_vocab, n=2) for text in texts])
-# X_ngram = vstack([data_util.ngram_ratio_vector_sparse(text, ngram_vocab, n=2) for text in texts])
-# y_ngram = labels.copy()
-
-# X_ngram_reduced = tsvd.fit_transform(X_ngram)
-
-# print("Ngram dataset shape:", X_ngram.shape)
-
-# print("TSVD Ngram dataset shape:", X_ngram_reduced)
-
-# # Stylometric dataset
-# stylometric_vectors = []
-# for text in tqdm(texts):
-#     stylometric_vectors.append(data_util.build_stylometric_vector(text, include_pos=True))
-
-# X_stylometric = np.array(stylometric_vectors)
-# y_stylometric = labels.copy()
-
-# print("Stylometric dataset shape:", X_stylometric.shape)
-
-# np.save("X_ngram.npy", X_ngram_reduced)
-# np.save("y_ngram.npy", y_ngram)
-
-# np.save("X_stylometric.npy", X_stylometric)
-# np.save("y_stylometric.npy", y_stylometric)
 
 RESULTS_DIR = "results"
 os.makedirs(RESULTS_DIR, exist_ok=True)
 
-X_ngram_reduced, y_ngram = np.load("X_ngram.npy", allow_pickle=True), np.load("y_ngram.npy", allow_pickle=True)
-X_stylometric, y_stylometric = np.load("X_stylometric.npy", allow_pickle=True), np.load("y_stylometric.npy", allow_pickle=True)
+def rename_yi_large(y):
+    y = np.array(y, dtype=object)
+    y[y=="accounts/yi-01-ai/models/yi-large"] = "yi-large"
+    return y
 
-# train test and 10cv
-X_ngram_train, X_ngram_test, y_ngram_train, y_ngram_test = train_test_split(
-    X_ngram_reduced, y_ngram, test_size=0.2, random_state=42
-)
+X_ngram_train = np.load("data/X_ngram_train.npy", allow_pickle=True)
+X_ngram_val = np.load("data/X_ngram_val.npy", allow_pickle=True)
+X_ngram_test = np.load("data/X_ngram_test.npy", allow_pickle=True)
+y_ngram_train = rename_yi_large(np.load("data/y_ngram_train.npy", allow_pickle=True))
+y_ngram_val = rename_yi_large(np.load("data/y_ngram_val.npy", allow_pickle=True))
+y_ngram_test = rename_yi_large(np.load("data/y_ngram_test.npy", allow_pickle=True))
 
-X_styl_train, X_styl_test, y_styl_train, y_styl_test = train_test_split(
-    X_stylometric, y_stylometric, test_size=0.2, random_state=42
-)
+X_stylometric_train = np.load("data/X_stylometric_train.npy", allow_pickle=True)
+X_stylometric_val = np.load("data/X_stylometric_val.npy", allow_pickle=True)
+X_stylometric_test = np.load("data/X_stylometric_test.npy", allow_pickle=True)
+y_stylometric_train = rename_yi_large(np.load("data/y_stylometric_train.npy", allow_pickle=True))
+y_stylometric_val = rename_yi_large(np.load("data/y_stylometric_val.npy", allow_pickle=True))
+y_stylometric_test = rename_yi_large(np.load("data/y_stylometric_test.npy", allow_pickle=True))
+
 
 classifiers = {
     "RandomForest": models.RandomForestClassifierWrapper(n_trees=100),
@@ -75,8 +39,8 @@ classifiers = {
 
 # Datasets
 datasets = {
-    "Ngram_TSV": (X_ngram_train, X_ngram_test, y_ngram_train, y_ngram_test, X_ngram_reduced, y_ngram),
-    "Stylometric": (X_styl_train, X_styl_test, y_styl_train, y_styl_test, X_stylometric, y_ngram)
+    "Ngram_TSV": (X_ngram_train, X_ngram_val, X_ngram_test, y_ngram_train, y_ngram_val, y_ngram_test),
+    "Stylometric": (X_stylometric_train, X_stylometric_val, X_stylometric_test, y_stylometric_train, y_stylometric_val, y_stylometric_test)
 }
 
 feature_names = [
@@ -100,7 +64,7 @@ feature_names = [
     "pos_PRP"
 ]
 
-for d_name, (X_tr, X_te, y_tr, y_te, X_full, y_full) in datasets.items():
+for d_name, (X_tr, X_val, X_te, y_tr, y_val, y_te) in datasets.items():
     print(f"Dataset: {d_name}")
 
     for clf_name, clf in classifiers.items():
@@ -125,9 +89,11 @@ for d_name, (X_tr, X_te, y_tr, y_te, X_full, y_full) in datasets.items():
         plt.savefig(os.path.join(RESULTS_DIR, f"confusion_{clf_name}_{d_name}.png"))
         plt.close()
 
+        x_cv = np.concat([X_tr, X_val])
+        y_cv = np.concat([y_tr, y_val])
         # 10-fold CV on full dataset
         print("10-fold cross-validation:")
-        clf.cross_validate(X_full, y_full, cv=10)
+        clf.cross_validate(x_cv, y_cv, cv=10)
 
         print("Test set evaluation post cv:")
         clf.evaluate(X_te, y_te)
@@ -137,17 +103,17 @@ for d_name, (X_tr, X_te, y_tr, y_te, X_full, y_full) in datasets.items():
             # feature name(Add proper names in later)
             if d_name == "Stylometric":
                 clf.surrogate_tree(
-                    X_full,
+                    x_cv,
                     feature_names=feature_names,
                     class_names=None,
-                    max_depth=20,
+                    max_depth=5,
                     save_name=os.path.join(RESULTS_DIR, f"{d_name}.png")
                 )
             else:
                 clf.surrogate_tree(
-                    X_full,
+                    x_cv,
                     feature_names=None,
                     class_names=None,
-                    max_depth=20,
+                    max_depth=5,
                     save_name=os.path.join(RESULTS_DIR, f"{d_name}.png")
                 )
