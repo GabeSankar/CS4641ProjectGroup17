@@ -7,6 +7,10 @@ from sklearn.decomposition import TruncatedSVD
 import models
 from tqdm import tqdm
 
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+import matplotlib.pyplot as plt
+import os
+
 # df = pd.read_csv("hf://datasets/gsingh1-py/train/train.csv")
 # df = data_util.flip_dataframe(df)
 
@@ -48,10 +52,13 @@ from tqdm import tqdm
 # np.save("X_stylometric.npy", X_stylometric)
 # np.save("y_stylometric.npy", y_stylometric)
 
-X_ngram_reduced, y_ngram = np.load("X_ngram.npy",  allow_pickle=True), np.load("y_ngram.npy",  allow_pickle=True)
-X_stylometric, y_stylometric = np.load("X_stylometric.npy",  allow_pickle=True), np.load("y_stylometric.npy",  allow_pickle=True)
+RESULTS_DIR = "results"
+os.makedirs(RESULTS_DIR, exist_ok=True)
 
-#train test and 10cv
+X_ngram_reduced, y_ngram = np.load("X_ngram.npy", allow_pickle=True), np.load("y_ngram.npy", allow_pickle=True)
+X_stylometric, y_stylometric = np.load("X_stylometric.npy", allow_pickle=True), np.load("y_stylometric.npy", allow_pickle=True)
+
+# train test and 10cv
 X_ngram_train, X_ngram_test, y_ngram_train, y_ngram_test = train_test_split(
     X_ngram_reduced, y_ngram, test_size=0.2, random_state=42
 )
@@ -59,8 +66,6 @@ X_ngram_train, X_ngram_test, y_ngram_train, y_ngram_test = train_test_split(
 X_styl_train, X_styl_test, y_styl_train, y_styl_test = train_test_split(
     X_stylometric, y_stylometric, test_size=0.2, random_state=42
 )
-
-
 
 classifiers = {
     "RandomForest": models.RandomForestClassifierWrapper(n_trees=100),
@@ -97,24 +102,36 @@ feature_names = [
 
 for d_name, (X_tr, X_te, y_tr, y_te, X_full, y_full) in datasets.items():
     print(f"Dataset: {d_name}")
-    
+
     for clf_name, clf in classifiers.items():
         print(f"Classifier: {clf_name}")
-        
+
         # Train
         clf.train(X_tr, y_tr)
-        
+
         # Evaluate on test set
         print("Test set evaluation:")
         clf.evaluate(X_te, y_te)
-        
+
+        # Confusion matrix with correct displayed labels from the test set
+        y_pred = clf.predict(X_te)
+        labels = np.unique(y_te)
+        cm = confusion_matrix(y_te, y_pred, labels=labels)
+
+        disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
+        disp.plot(xticks_rotation=45)
+        plt.title(f"Confusion Matrix - {clf_name} ({d_name})")
+        plt.tight_layout()
+        plt.savefig(os.path.join(RESULTS_DIR, f"confusion_{clf_name}_{d_name}.png"))
+        plt.close()
+
         # 10-fold CV on full dataset
         print("10-fold cross-validation:")
         clf.cross_validate(X_full, y_full, cv=10)
-        
+
         print("Test set evaluation post cv:")
         clf.evaluate(X_te, y_te)
-        
+
         # Surrogate tree only for Random Forest
         if clf_name == "RandomForest":
             # feature name(Add proper names in later)
@@ -124,7 +141,7 @@ for d_name, (X_tr, X_te, y_tr, y_te, X_full, y_full) in datasets.items():
                     feature_names=feature_names,
                     class_names=None,
                     max_depth=20,
-                    save_name=f"{d_name}.png"
+                    save_name=os.path.join(RESULTS_DIR, f"{d_name}.png")
                 )
             else:
                 clf.surrogate_tree(
@@ -132,6 +149,5 @@ for d_name, (X_tr, X_te, y_tr, y_te, X_full, y_full) in datasets.items():
                     feature_names=None,
                     class_names=None,
                     max_depth=20,
-                    save_name=f"{d_name}.png"
+                    save_name=os.path.join(RESULTS_DIR, f"{d_name}.png")
                 )
-              
