@@ -1,0 +1,8 @@
+true\pred      GPT_4-o      Human_story  gemma-2-9b   llama-8B     mistral-7B   qwen-2-72B   yi-large    
+GPT_4-o        1111         1            2            5            7            4            33          
+Human_story    0            1148         5            4            0            4            0           
+gemma-2-9b     20           7            868          102          80           31           53          
+llama-8B       17           10           116          769          70           144          37          
+mistral-7B     14           2            91           102          619          133          200         
+qwen-2-72B     18           10           58           193          101          674          109         
+yi-large       52           6            29           35           94           68           879         

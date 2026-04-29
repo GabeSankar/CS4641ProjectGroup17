@@ -1,0 +1,572 @@
+============================================================
+WINNER: Best Lexical RandomForest
+============================================================
+Run ID: lexical_ngram=1-2_tfidf=True_rank=300_RandomForest_max_features=sqrt
+
+Configuration:
+  feature_set:    lexical
+  ngram_range:    1-2
+  use_tfidf:      True
+  tsvd_rank:      300
+  classifier:     RandomForest
+  max_features:   sqrt
+
+Validation:
+  accuracy:       0.7432
+  macro_f1:       0.7380
+
+Test Set Evaluation:
+  accuracy:       0.7459
+  macro_f1:       0.7426
+
+Per-class F1:
+  GPT_4-o         0.9278
+  Human_story     0.9791
+  gemma-2-9b      0.7451
+  llama-8B        0.6481
+  mistral-7B      0.5807
+  qwen-2-72B      0.6069
+  yi-large        0.7106
+
+Classification Report:
+              precision    recall  f1-score   support
+
+     GPT_4-o     0.9018    0.9553    0.9278      1163
+ Human_story     0.9696    0.9888    0.9791      1161
+  gemma-2-9b     0.7425    0.7476    0.7451      1161
+    llama-8B     0.6355    0.6612    0.6481      1163
+  mistral-7B     0.6375    0.5332    0.5807      1161
+  qwen-2-72B     0.6371    0.5795    0.6069      1163
+    yi-large     0.6705    0.7558    0.7106      1163
+
+    accuracy                         0.7459      8135
+   macro avg     0.7421    0.7459    0.7426      8135
+weighted avg     0.7420    0.7459    0.7426      8135
+
+Confusion Matrix:
+true\pred      GPT_4-o      Human_story  gemma-2-9b   llama-8B     mistral-7B   qwen-2-72B   yi-large    
+GPT_4-o        1111         1            2            5            7            4            33          
+Human_story    0            1148         5            4            0            4            0           
+gemma-2-9b     20           7            868          102          80           31           53          
+llama-8B       17           10           116          769          70           144          37          
+mistral-7B     14           2            91           102          619          133          200         
+qwen-2-72B     18           10           58           193          101          674          109         
+yi-large       52           6            29           35           94           68           879         
+
+============================================================
+WINNER: Best Lexical LogReg
+============================================================
+Run ID: lexical_ngram=1-2_tfidf=True_rank=300_LogReg_C=100.0
+
+Configuration:
+  feature_set:    lexical
+  ngram_range:    1-2
+  use_tfidf:      True
+  tsvd_rank:      300
+  classifier:     LogReg
+  C:              100.0
+
+Validation:
+  accuracy:       0.8830
+  macro_f1:       0.8824
+
+Test Set Evaluation:
+  accuracy:       0.8890
+  macro_f1:       0.8887
+
+Per-class F1:
+  GPT_4-o         0.9849
+  Human_story     0.9884
+  gemma-2-9b      0.9111
+  llama-8B        0.8137
+  mistral-7B      0.8546
+  qwen-2-72B      0.7712
+  yi-large        0.8969
+
+Classification Report:
+              precision    recall  f1-score   support
+
+     GPT_4-o     0.9870    0.9828    0.9849      1163
+ Human_story     0.9830    0.9940    0.9884      1161
+  gemma-2-9b     0.9171    0.9053    0.9111      1161
+    llama-8B     0.8106    0.8169    0.8137      1163
+  mistral-7B     0.8664    0.8432    0.8546      1161
+  qwen-2-72B     0.7818    0.7610    0.7712      1163
+    yi-large     0.8749    0.9200    0.8969      1163
+
+    accuracy                         0.8890      8135
+   macro avg     0.8887    0.8890    0.8887      8135
+weighted avg     0.8887    0.8890    0.8887      8135
+
+Confusion Matrix:
+true\pred      GPT_4-o      Human_story  gemma-2-9b   llama-8B     mistral-7B   qwen-2-72B   yi-large    
+GPT_4-o        1143         0            1            2            2            0            15          
+Human_story    0            1154         2            3            0            2            0           
+gemma-2-9b     4            3            1051         63           17           16           7           
+llama-8B       0            3            70           950          24           103          13          
+mistral-7B     1            1            10           37           979          97           36          
+qwen-2-72B     4            8            8            108          68           885          82          
+yi-large       6            5            4            9            40           29           1070        
+
+============================================================
+WINNER: Best Lexical GaussianNB
+============================================================
+Run ID: lexical_ngram=1-1_tfidf=True_rank=300_GaussianNB_var_smoothing=1e-11
+
+Configuration:
+  feature_set:    lexical
+  ngram_range:    1-1
+  use_tfidf:      True
+  tsvd_rank:      300
+  classifier:     GaussianNB
+  var_smoothing:  1e-11
+
+Validation:
+  accuracy:       0.6421
+  macro_f1:       0.6410
+
+Test Set Evaluation:
+  accuracy:       0.6569
+  macro_f1:       0.6549
+
+Per-class F1:
+  GPT_4-o         0.6710
+  Human_story     0.6382
+  gemma-2-9b      0.6916
+  llama-8B        0.6543
+  mistral-7B      0.6706
+  qwen-2-72B      0.5855
+  yi-large        0.6732
+
+Classification Report:
+              precision    recall  f1-score   support
+
+     GPT_4-o     0.5831    0.7902    0.6710      1163
+ Human_story     0.7928    0.5340    0.6382      1161
+  gemma-2-9b     0.5985    0.8191    0.6916      1161
+    llama-8B     0.6442    0.6647    0.6543      1163
+  mistral-7B     0.7707    0.5935    0.6706      1161
+  qwen-2-72B     0.6256    0.5503    0.5855      1163
+    yi-large     0.7021    0.6466    0.6732      1163
+
+    accuracy                         0.6569      8135
+   macro avg     0.6739    0.6569    0.6549      8135
+weighted avg     0.6738    0.6569    0.6549      8135
+
+Confusion Matrix:
+true\pred      GPT_4-o      Human_story  gemma-2-9b   llama-8B     mistral-7B   qwen-2-72B   yi-large    
+GPT_4-o        919          27           20           14           35           20           128         
+Human_story    255          620          97           77           8            100          4           
+gemma-2-9b     24           37           951          44           24           33           48          
+llama-8B       69           27           155          773          14           101          24          
+mistral-7B     88           24           126          78           689          93           63          
+qwen-2-72B     81           21           120          180          69           640          52          
+yi-large       140          26           120          34           55           36           752         
+
+============================================================
+WINNER: Best Stylometric RandomForest
+============================================================
+Run ID: stylometric_RandomForest_max_features=sqrt
+
+Configuration:
+  feature_set:    stylometric
+  classifier:     RandomForest
+  max_features:   sqrt
+
+Validation:
+  accuracy:       0.7507
+  macro_f1:       0.7488
+
+Test Set Evaluation:
+  accuracy:       0.7600
+  macro_f1:       0.7585
+
+Per-class F1:
+  GPT_4-o         0.8102
+  Human_story     0.9601
+  gemma-2-9b      0.7851
+  llama-8B        0.7337
+  mistral-7B      0.6641
+  qwen-2-72B      0.6470
+  yi-large        0.7090
+
+Classification Report:
+              precision    recall  f1-score   support
+
+     GPT_4-o     0.8037    0.8169    0.8102      1163
+ Human_story     0.9464    0.9742    0.9601      1161
+  gemma-2-9b     0.7546    0.8183    0.7851      1161
+    llama-8B     0.7068    0.7627    0.7337      1163
+  mistral-7B     0.6549    0.6736    0.6641      1161
+  qwen-2-72B     0.6859    0.6122    0.6470      1163
+    yi-large     0.7619    0.6629    0.7090      1163
+
+    accuracy                         0.7600      8135
+   macro avg     0.7592    0.7601    0.7585      8135
+weighted avg     0.7592    0.7600    0.7584      8135
+
+Confusion Matrix:
+true\pred      GPT_4-o      Human_story  gemma-2-9b   llama-8B     mistral-7B   qwen-2-72B   yi-large    
+GPT_4-o        950          1            130          17           25           3            37          
+Human_story    0            1131         3            5            5            14           3           
+gemma-2-9b     93           5            950          32           46           11           24          
+llama-8B       24           9            48           887          61           60           74          
+mistral-7B     19           17           53           92           782          165          33          
+qwen-2-72B     22           20           38           105          196          712          70          
+yi-large       74           12           37           117          79           73           771         
+
+============================================================
+WINNER: Best Stylometric LogReg
+============================================================
+Run ID: stylometric_LogReg_C=100.0
+
+Configuration:
+  feature_set:    stylometric
+  classifier:     LogReg
+  C:              100.0
+
+Validation:
+  accuracy:       0.5920
+  macro_f1:       0.5898
+
+Test Set Evaluation:
+  accuracy:       0.5458
+  macro_f1:       0.5415
+
+Per-class F1:
+  GPT_4-o         0.6218
+  Human_story     0.8109
+  gemma-2-9b      0.5244
+  llama-8B        0.5136
+  mistral-7B      0.3963
+  qwen-2-72B      0.5282
+  yi-large        0.3951
+
+Classification Report:
+              precision    recall  f1-score   support
+
+     GPT_4-o     0.5910    0.6561    0.6218      1163
+ Human_story     0.7695    0.8570    0.8109      1161
+  gemma-2-9b     0.5507    0.5004    0.5244      1161
+    llama-8B     0.5631    0.4721    0.5136      1163
+  mistral-7B     0.4331    0.3652    0.3963      1161
+  qwen-2-72B     0.4940    0.5675    0.5282      1163
+    yi-large     0.3881    0.4024    0.3951      1163
+
+    accuracy                         0.5458      8135
+   macro avg     0.5414    0.5458    0.5415      8135
+weighted avg     0.5413    0.5458    0.5414      8135
+
+Confusion Matrix:
+true\pred      GPT_4-o      Human_story  gemma-2-9b   llama-8B     mistral-7B   qwen-2-72B   yi-large    
+GPT_4-o        763          5            223          50           4            6            112         
+Human_story    14           995          26           38           49           32           7           
+gemma-2-9b     289          42           581          24           77           66           82          
+llama-8B       76           39           102          549          88           128          181         
+mistral-7B     20           91           51           105          424          246          224         
+qwen-2-72B     16           80           23           83           169          660          132         
+yi-large       113          41           49           126          168          198          468         
+
+============================================================
+WINNER: Best Stylometric GaussianNB
+============================================================
+Run ID: stylometric_GaussianNB_var_smoothing=1e-11
+
+Configuration:
+  feature_set:    stylometric
+  classifier:     GaussianNB
+  var_smoothing:  1e-11
+
+Validation:
+  accuracy:       0.5051
+  macro_f1:       0.4963
+
+Test Set Evaluation:
+  accuracy:       0.5061
+  macro_f1:       0.4947
+
+Per-class F1:
+  GPT_4-o         0.5868
+  Human_story     0.6758
+  gemma-2-9b      0.5293
+  llama-8B        0.2199
+  mistral-7B      0.5232
+  qwen-2-72B      0.3967
+  yi-large        0.5313
+
+Classification Report:
+              precision    recall  f1-score   support
+
+     GPT_4-o     0.5445    0.6363    0.5868      1163
+ Human_story     0.8776    0.5495    0.6758      1161
+  gemma-2-9b     0.5753    0.4901    0.5293      1161
+    llama-8B     0.5479    0.1376    0.2199      1163
+  mistral-7B     0.4313    0.6649    0.5232      1161
+  qwen-2-72B     0.3657    0.4334    0.3967      1163
+    yi-large     0.4587    0.6311    0.5313      1163
+
+    accuracy                         0.5061      8135
+   macro avg     0.5430    0.5061    0.4947      8135
+weighted avg     0.5430    0.5061    0.4947      8135
+
+Confusion Matrix:
+true\pred      GPT_4-o      Human_story  gemma-2-9b   llama-8B     mistral-7B   qwen-2-72B   yi-large    
+GPT_4-o        740          1            143          14           59           8            198         
+Human_story    16           638          18           65           36           363          25          
+gemma-2-9b     300          9            569          30           124          41           88          
+llama-8B       160          26           127          160          229          215          246         
+mistral-7B     37           20           61           3            772          138          130         
+qwen-2-72B     13           20           30           1            416          504          179         
+yi-large       93           13           41           19           154          109          734         
+
+============================================================
+WINNER: Best Hybrid RandomForest
+============================================================
+Run ID: hybrid_RandomForest_alpha=0.3
+
+Configuration:
+  feature_set:    hybrid
+  classifier:     RandomForest
+  alpha:          0.3
+
+  Lex side:
+    run_id:       lexical_ngram=1-2_tfidf=True_rank=300_RandomForest_max_features=sqrt
+    ngram_range:  1-2
+    use_tfidf:    True
+    tsvd_rank:    300
+    max_features: sqrt
+
+  Sty side:
+    run_id:       stylometric_RandomForest_max_features=sqrt
+    max_features: sqrt
+
+Validation:
+  accuracy:       0.8496
+  macro_f1:       0.8480
+
+Test Set Evaluation:
+  accuracy:       0.8504
+  macro_f1:       0.8494
+
+Per-class F1:
+  GPT_4-o         0.9410
+  Human_story     0.9906
+  gemma-2-9b      0.8941
+  llama-8B        0.8192
+  mistral-7B      0.7568
+  qwen-2-72B      0.7337
+  yi-large        0.8104
+
+Classification Report:
+              precision    recall  f1-score   support
+
+     GPT_4-o     0.9231    0.9596    0.9410      1163
+ Human_story     0.9839    0.9974    0.9906      1161
+  gemma-2-9b     0.9011    0.8872    0.8941      1161
+    llama-8B     0.7947    0.8452    0.8192      1163
+  mistral-7B     0.7792    0.7356    0.7568      1161
+  qwen-2-72B     0.7569    0.7120    0.7337      1163
+    yi-large     0.8049    0.8160    0.8104      1163
+
+    accuracy                         0.8504      8135
+   macro avg     0.8491    0.8504    0.8494      8135
+weighted avg     0.8491    0.8504    0.8494      8135
+
+Confusion Matrix:
+true\pred      GPT_4-o      Human_story  gemma-2-9b   llama-8B     mistral-7B   qwen-2-72B   yi-large    
+GPT_4-o        1116         1            16           6            3            1            20          
+Human_story    0            1158         0            0            0            3            0           
+gemma-2-9b     30           2            1030         34           35           8            22          
+llama-8B       6            3            33           983          32           57           49          
+mistral-7B     5            3            29           71           854          142          57          
+qwen-2-72B     16           5            18           90           124          828          82          
+yi-large       36           5            17           53           48           55           949         
+
+============================================================
+WINNER: Best Hybrid LogReg
+============================================================
+Run ID: hybrid_LogReg_alpha=0.5
+
+Configuration:
+  feature_set:    hybrid
+  classifier:     LogReg
+  alpha:          0.5
+
+  Lex side:
+    run_id:       lexical_ngram=1-2_tfidf=True_rank=300_LogReg_C=100.0
+    ngram_range:  1-2
+    use_tfidf:    True
+    tsvd_rank:    300
+    C: 100.0
+
+  Sty side:
+    run_id:       stylometric_LogReg_C=100.0
+    C: 100.0
+
+Validation:
+  accuracy:       0.8995
+  macro_f1:       0.8988
+
+Test Set Evaluation:
+  accuracy:       0.9017
+  macro_f1:       0.9015
+
+Per-class F1:
+  GPT_4-o         0.9740
+  Human_story     0.9787
+  gemma-2-9b      0.9505
+  llama-8B        0.8649
+  mistral-7B      0.8559
+  qwen-2-72B      0.7947
+  yi-large        0.8915
+
+Classification Report:
+              precision    recall  f1-score   support
+
+     GPT_4-o     0.9646    0.9837    0.9740      1163
+ Human_story     0.9664    0.9914    0.9787      1161
+  gemma-2-9b     0.9679    0.9337    0.9505      1161
+    llama-8B     0.8547    0.8753    0.8649      1163
+  mistral-7B     0.8821    0.8312    0.8559      1161
+  qwen-2-72B     0.7940    0.7954    0.7947      1163
+    yi-large     0.8822    0.9011    0.8915      1163
+
+    accuracy                         0.9017      8135
+   macro avg     0.9017    0.9017    0.9015      8135
+weighted avg     0.9017    0.9017    0.9014      8135
+
+Confusion Matrix:
+true\pred      GPT_4-o      Human_story  gemma-2-9b   llama-8B     mistral-7B   qwen-2-72B   yi-large    
+GPT_4-o        1144         0            1            3            1            1            13          
+Human_story    0            1151         4            3            0            3            0           
+gemma-2-9b     15           5            1084         29           11           13           4           
+llama-8B       3            9            11           1018         21           90           11          
+mistral-7B     5            11           8            38           965          101          33          
+qwen-2-72B     5            10           6            84           54           925          79          
+yi-large       14           5            6            16           42           32           1048        
+
+============================================================
+WINNER: Best Hybrid GaussianNB
+============================================================
+Run ID: hybrid_GaussianNB_alpha=0.5
+
+Configuration:
+  feature_set:    hybrid
+  classifier:     GaussianNB
+  alpha:          0.5
+
+  Lex side:
+    run_id:       lexical_ngram=1-1_tfidf=True_rank=300_GaussianNB_var_smoothing=1e-11
+    ngram_range:  1-1
+    use_tfidf:    True
+    tsvd_rank:    300
+    var_smoothing: 1e-11
+
+  Sty side:
+    run_id:       stylometric_GaussianNB_var_smoothing=1e-11
+    var_smoothing: 1e-11
+
+Validation:
+  accuracy:       0.7125
+  macro_f1:       0.7113
+
+Test Set Evaluation:
+  accuracy:       0.7190
+  macro_f1:       0.7180
+
+Per-class F1:
+  GPT_4-o         0.7540
+  Human_story     0.7792
+  gemma-2-9b      0.7869
+  llama-8B        0.6734
+  mistral-7B      0.7055
+  qwen-2-72B      0.6118
+  yi-large        0.7152
+
+Classification Report:
+              precision    recall  f1-score   support
+
+     GPT_4-o     0.6800    0.8461    0.7540      1163
+ Human_story     0.8283    0.7356    0.7792      1161
+  gemma-2-9b     0.7479    0.8303    0.7869      1161
+    llama-8B     0.8226    0.5701    0.6734      1163
+  mistral-7B     0.7127    0.6985    0.7055      1161
+  qwen-2-72B     0.5869    0.6389    0.6118      1163
+    yi-large     0.7168    0.7137    0.7152      1163
+
+    accuracy                         0.7190      8135
+   macro avg     0.7279    0.7190    0.7180      8135
+weighted avg     0.7278    0.7190    0.7180      8135
+
+Confusion Matrix:
+true\pred      GPT_4-o      Human_story  gemma-2-9b   llama-8B     mistral-7B   qwen-2-72B   yi-large    
+GPT_4-o        984          15           37           10           19           13           85          
+Human_story    87           854          18           19           10           164          9           
+gemma-2-9b     64           27           964          34           24           20           28          
+llama-8B       105          38           90           663          56           145          66          
+mistral-7B     50           33           62           14           811          125          66          
+qwen-2-72B     51           34           55           50           156          743          74          
+yi-large       106          30           63           16           62           56           830         
+
+============================================================
+WINNER: Overall Winner
+============================================================
+Run ID: hybrid_LogReg_alpha=0.5
+
+Configuration:
+  feature_set:    hybrid
+  classifier:     LogReg
+  alpha:          0.5
+
+  Lex side:
+    run_id:       lexical_ngram=1-2_tfidf=True_rank=300_LogReg_C=100.0
+    ngram_range:  1-2
+    use_tfidf:    True
+    tsvd_rank:    300
+    C: 100.0
+
+  Sty side:
+    run_id:       stylometric_LogReg_C=100.0
+    C: 100.0
+
+Validation:
+  accuracy:       0.8995
+  macro_f1:       0.8988
+
+Test Set Evaluation:
+  accuracy:       0.9017
+  macro_f1:       0.9015
+
+Per-class F1:
+  GPT_4-o         0.9740
+  Human_story     0.9787
+  gemma-2-9b      0.9505
+  llama-8B        0.8649
+  mistral-7B      0.8559
+  qwen-2-72B      0.7947
+  yi-large        0.8915
+
+Classification Report:
+              precision    recall  f1-score   support
+
+     GPT_4-o     0.9646    0.9837    0.9740      1163
+ Human_story     0.9664    0.9914    0.9787      1161
+  gemma-2-9b     0.9679    0.9337    0.9505      1161
+    llama-8B     0.8547    0.8753    0.8649      1163
+  mistral-7B     0.8821    0.8312    0.8559      1161
+  qwen-2-72B     0.7940    0.7954    0.7947      1163
+    yi-large     0.8822    0.9011    0.8915      1163
+
+    accuracy                         0.9017      8135
+   macro avg     0.9017    0.9017    0.9015      8135
+weighted avg     0.9017    0.9017    0.9014      8135
+
+Confusion Matrix:
+true\pred      GPT_4-o      Human_story  gemma-2-9b   llama-8B     mistral-7B   qwen-2-72B   yi-large    
+GPT_4-o        1144         0            1            3            1            1            13          
+Human_story    0            1151         4            3            0            3            0           
+gemma-2-9b     15           5            1084         29           11           13           4           
+llama-8B       3            9            11           1018         21           90           11          
+mistral-7B     5            11           8            38           965          101          33          
+qwen-2-72B     5            10           6            84           54           925          79          
+yi-large       14           5            6            16           42           32           1048        

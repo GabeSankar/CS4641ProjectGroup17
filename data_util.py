@@ -5,6 +5,8 @@ import numpy as np
 import re
 
 from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.decomposition import TruncatedSVD
 nltk.download('averaged_perceptron_tagger_eng')
 nltk.download('punkt')
 import string
@@ -140,6 +142,20 @@ def flip_dataframe(df):
     df_flipped = df_flipped[df_flipped['text'].str.strip() != '']
 
     return df_flipped
+
+def build_lex_pipeline(train_texts, ngram_range, use_tfidf, tsvd_rank, min_df=2, random_state=42):
+    vec = TfidfVectorizer(
+        ngram_range=ngram_range,
+        min_df=min_df,
+        use_idf=use_tfidf,
+        sublinear_tf=use_tfidf,
+        norm='l2',
+        lowercase=True,
+    )
+    X_train_sp = vec.fit_transform(train_texts)
+    svd = TruncatedSVD(n_components=tsvd_rank, random_state=random_state)
+    X_train = svd.fit_transform(X_train_sp)
+    return vec, svd, X_train
 
 def split_by_prompt(df, train_size = 0.7, val_size = 0.15, random_state=42):
     unique_prompts = np.array(df['prompt'].unique())

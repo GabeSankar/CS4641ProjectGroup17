@@ -38,11 +38,13 @@ class Classifier:
         return scores
     
 class RandomForestClassifierWrapper(Classifier):
-    def __init__(self, n_trees=100, max_depth=None, random_state=42):
+    def __init__(self, n_trees=100, max_depth=None, random_state=42, max_features='sqrt'):
         model = RandomForestClassifier(
             n_estimators=n_trees,
             max_depth=max_depth,
-            random_state=random_state
+            random_state=random_state,
+            max_features=max_features,
+            n_jobs=-1
         )
         super().__init__(model)
 
@@ -55,30 +57,33 @@ class RandomForestClassifierWrapper(Classifier):
         surrogate_tree = DecisionTreeClassifier(max_depth=max_depth, random_state=42)
         surrogate_tree.fit(X, rf_preds)
         
-        #plot tree
-        plt.figure(figsize=(20,10))
+        #plot tree, very wide canvas to fit 8 leaves at depth 3 with 7-class value arrays
+        plt.figure(figsize=(40, 22))
         plot_tree(
             surrogate_tree,
             feature_names=feature_names,
             class_names=[str(c) for c in np.unique(rf_preds)] if class_names is None else class_names,
             filled=True,
-            fontsize=10
+            fontsize=11,
+            impurity=False,
+            proportion=True,
         )
-        plt.savefig(save_name)
+        plt.savefig(save_name, dpi=150, bbox_inches='tight')
+        plt.close()
         
         #return surrogate tre
         return surrogate_tree
 
 class LogisticRegressionWrapper(Classifier):
-    def __init__(self, max_iter=500, random_state=42):
+    def __init__(self, max_iter=500, random_state=42, C=1.0):
         model = LogisticRegression(
             max_iter=max_iter,
             random_state=random_state,
-            n_jobs=-1
+            C=C
         )
         super().__init__(model)
 
 class NaiveBayesClassifierWrapper(Classifier):
-    def __init__(self):
-        model = GaussianNB()
+    def __init__(self, var_smoothing=1e-9):
+        model = GaussianNB(var_smoothing=var_smoothing)
         super().__init__(model)
